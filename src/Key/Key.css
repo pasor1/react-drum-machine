@@ -1,0 +1,35 @@
+.key {
+  border: .2rem solid #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+  width: 8rem;
+  height: 7.5rem;
+  margin: 1rem;
+  text-align: center;
+  transition: all 0.1s ease;
+}
+
+.key[data-key=" "] {
+  width: 85%;
+  height: 7.5rem;
+  margin: 1rem;
+
+}
+
+.playing {
+  transform: scale(2);
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+kbd {
+  font-size: 5rem;
+  color: #FFFFFF;
+  display: block;
+}
+
+.sound {
+  color: #ffc600;
+  font-size: 1.3rem;
+}
