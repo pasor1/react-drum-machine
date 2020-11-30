@@ -1,7 +1,65 @@
+import React from 'react';
 import './App.css';
 import Key from './Key/Key';
 
-function play(key) {
+const soundMap = [
+  {
+    key: 'a',
+    keyName: 'A',
+    soundName: 'clap',
+    soundFile: 'assets/sounds/clap.wav'
+  },
+  {
+    key: 's',
+    keyName: 'S',
+    soundName: 'hihat',
+    soundFile: 'assets/sounds/kick.wav'
+  },
+  {
+    key: 'd',
+    keyName: 'D',
+    soundName: 'kick',
+    soundFile: 'assets/sounds/kick.wav'
+  },
+  {
+    key: 'f',
+    keyName: 'F',
+    soundName: 'openhat',
+    soundFile: 'assets/sounds/openhat.wav'
+  },
+  {
+    key: 'g',
+    keyName: 'G',
+    soundName: 'boom',
+    soundFile: 'assets/sounds/boom.wav'
+  },
+  {
+    key: 'h',
+    keyName: 'H',
+    soundName: 'ride',
+    soundFile: 'assets/sounds/ride.wav'
+  },
+  {
+    key: 'j',
+    keyName: 'J',
+    soundName: 'snare',
+    soundFile: 'assets/sounds/snare.wav'
+  },
+  {
+    key: 'k',
+    keyName: 'K',
+    soundName: 'tom',
+    soundFile: 'assets/sounds/tom.wav'
+  },
+  {
+    key: ' ',
+    keyName: 'SPACE',
+    soundName: 'whooo',
+    soundFile: 'assets/sounds/whoo.wav'
+  },
+]
+
+const play = (key) => {
   // visual effect
   const drumKeyBox = document.querySelector(`div[data-key="${key}"]`);
   if (!drumKeyBox) return;
@@ -12,7 +70,7 @@ function play(key) {
   drumPlayer.play();
 }
 
-function stop(key) {
+const stop = (key) => {
   // visual effect
   const drumKeyBox = document.querySelector(`div[data-key="${key}"]`);
   if (!drumKeyBox) return;
@@ -23,36 +81,43 @@ function stop(key) {
 window.addEventListener('keydown', event => play(event.key));
 window.addEventListener('keyup', event => stop(event.key));
 
-// mouse and touch events
-const allKeys = document.querySelectorAll('.key');
-allKeys.forEach(element => {
-  element.addEventListener('touchstart', event => {
-    event.preventDefault();
-    play(event.currentTarget.getAttribute('data-key'))
-  });
-  element.addEventListener('mousedown', event => play(event.currentTarget.getAttribute('data-key')));
-  element.addEventListener('touchend', event => stop(event.currentTarget.getAttribute('data-key')));
-  element.addEventListener('mouseup', event => stop(event.currentTarget.getAttribute('data-key')));
-})
+class App extends React.Component {
 
-const App = () => {
-  return (
-    <div className="App">
-      <div className="cover-container">
-        <div className="keys">
-          <Key keyChar="a" keyName="A" soundName="clap" soundFile="assets/sounds/clap.wav" />
-          <Key keyChar="s" keyName="S" soundName="hihat" soundFile="assets/sounds/hihat.wav" />
-          <Key keyChar="d" keyName="D" soundName="kick" soundFile="assets/sounds/kick.wav" />
-          <Key keyChar="f" keyName="F" soundName="openhat" soundFile="assets/sounds/openhat.wav" />
-          <Key keyChar="g" keyName="G" soundName="boom" soundFile="assets/sounds/boom.wav" />
-          <Key keyChar="h" keyName="H" soundName="ride" soundFile="assets/sounds/ride.wav" />
-          <Key keyChar="j" keyName="J" soundName="snare" soundFile="assets/sounds/snare.wav" />
-          <Key keyChar="k" keyName="K" soundName="tom" soundFile="assets/sounds/tom.wav" />
-          <Key keyChar=" " keyName="SPACE" soundName="whoo" soundFile="assets/sounds/whoo.wav" />
+  startPlayHandler = (char) => {
+    play(char);
+  }
+
+  stopPlayHandler = (char) => {
+    stop(char);
+  }
+
+  render = () => {
+    return (
+      <div className="App" >
+        <div className="cover-container">
+          <div className="keys">
+            {
+              soundMap.map(item => {
+                return (
+                  <Key
+                    key={item.key}
+                    keyChar={item.key}
+                    keyName={item.keyName}
+                    soundName={item.soundName}
+                    soundFile={item.soundFile}
+                    onTouchStart={() => this.startPlayHandler(item.key)}
+                    onTouchEnd={() => this.stopPlayHandler(item.key)}
+                    onMouseDown={() => this.startPlayHandler(item.key)}
+                    onMouseUp={() => this.stopPlayHandler(item.key)}
+                  />
+                )
+              })
+            }
+          </div>
         </div>
       </div>
-    </div>
-  );
+    )
+  }
 }
 
 export default App;
