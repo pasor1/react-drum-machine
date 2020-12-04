@@ -13,7 +13,7 @@ const soundMap = [
     key: 's',
     keyName: 'S',
     soundName: 'hihat',
-    soundFile: 'assets/sounds/kick.wav'
+    soundFile: 'assets/sounds/hihat.wav'
   },
   {
     key: 'd',
