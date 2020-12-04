@@ -80,15 +80,23 @@ const stop = (key) => {
 // keyboard events
 window.addEventListener('keydown', event => play(event.key));
 window.addEventListener('keyup', event => stop(event.key));
-
 class App extends React.Component {
-
-  startPlayHandler = (char) => {
-    play(char);
+  state = {
+    mouseEventDisabled: false
   }
 
-  stopPlayHandler = (char) => {
-    stop(char);
+  startPlayHandler = (char, e) => {
+    // prevent event call twice on touch devices that uses onTouchStart and onMouseDown at the same time
+    if (e.type === 'touchstart') { this.setState({ mouseEventDisabled: true }) }
+    if (e.type !== 'mousedown' || this.state.mouseEventDisabled === false) {
+      play(char);
+    }
+  }
+
+  stopPlayHandler = (char, e) => {
+    if (e.type !== 'mouseup' || this.state.mouseEventDisabled === false) {
+      stop(char);
+    }
   }
 
   render = () => {
@@ -105,10 +113,10 @@ class App extends React.Component {
                     keyName={item.keyName}
                     soundName={item.soundName}
                     soundFile={item.soundFile}
-                    onTouchStart={() => this.startPlayHandler(item.key)}
-                    onTouchEnd={() => this.stopPlayHandler(item.key)}
-                    onMouseDown={() => this.startPlayHandler(item.key)}
-                    onMouseUp={() => this.stopPlayHandler(item.key)}
+                    onTouchStart={(e) => this.startPlayHandler(item.key, e)}
+                    onTouchEnd={(e) => this.stopPlayHandler(item.key, e)}
+                    onMouseDown={(e) => this.startPlayHandler(item.key, e)}
+                    onMouseUp={(e) => this.stopPlayHandler(item.key, e)}
                   />
                 )
               })
