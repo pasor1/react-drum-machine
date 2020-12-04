@@ -87,17 +87,15 @@ class App extends React.Component {
 
   startPlayHandler = (char, e) => {
     // prevent event call twice on touch devices that uses onTouchStart and onMouseDown at the same time
-    if (e.type === 'touchstart') { this.setState({ mouseEventDisabled: false }) }
+    if (e.type === 'touchstart') { this.setState({ mouseEventDisabled: true }) }
     if (e.type !== 'mousedown' || this.state.mouseEventDisabled === false) {
       play(char);
-      console.log(e);
     }
   }
 
   stopPlayHandler = (char, e) => {
     if (e.type !== 'mouseup' || this.state.mouseEventDisabled === false) {
       stop(char);
-      console.log(e);
     }
   }
 

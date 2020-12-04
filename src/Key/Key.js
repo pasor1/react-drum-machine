@@ -3,7 +3,7 @@ import './Key.css'
 
 const Key = (props) => {
   return (
-    <div data-key={props.keyChar}
+    <div role="button" data-key={props.keyChar}
       className="key"
       onMouseDown={props.onMouseDown}
       onMouseUp={props.onMouseUp}
